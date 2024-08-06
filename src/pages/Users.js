@@ -23,17 +23,34 @@ const Users = () => {
   //     });
   // }, []);
 
+  // Function to clear the cache
+  async function clearCache() {
+    try {
+      const cacheNames = await caches.keys();
+      for (const cacheName of cacheNames) {
+        if (cacheName === "appV1") {
+          await caches.delete(cacheName);
+          console.log('Cache "appV1" deleted');
+        }
+      }
+    } catch (error) {
+      console.error("Failed to delete cache:", error);
+    }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const url = "http://localhost:4000/users";
 
       try {
-        // Check if online
         if (navigator.onLine) {
+          // await clearCache();
+          // Check if online
           console.log("ON LINNNNNNWEEEE");
+
           const response = await fetch(url);
           const result = await response.json();
-          console.warn("RESULT ", result);
+          console.warn("RESULT OnLINE", result);
           setData(result);
           localStorage.setItem("users", JSON.stringify(result));
           setMode("online");
@@ -62,7 +79,7 @@ const Users = () => {
     const handleOffline = () => {
       console.log("handleOffline ");
       setMode("offline");
-      const collection = localStorage.getItem("usuarios");
+      const collection = localStorage.getItem("users");
       if (collection) {
         setData(JSON.parse(collection));
       }
