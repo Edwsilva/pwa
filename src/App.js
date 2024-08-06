@@ -7,13 +7,19 @@ import "./App.css";
 import { Navbar, Nav, Container } from "react-bootstrap";
 
 import { Link, Route, Routes, BrowserRouter as Router } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Users from "./pages/Users";
+import { Suspense, lazy } from "react";
+import Loading from "./components/Loading";
+import Home from "../src/pages/Home";
+import About from "../src/pages/About";
+import Users from "../src/pages/Users";
+// const Home = lazy(() => import("./pages/Home"));
+// const About = lazy(() => import("./pages/About"));
+// const Users = lazy(() => import("./pages/Users"));
 
 function App() {
   return (
     <Router>
+      {/* <Suspense fallback={<Loading />}> */}
       <Navbar bg="primary" variant="dark">
         <Container>
           {/* <Navbar.Brand href="#home">Navbar</Navbar.Brand> */}
@@ -41,6 +47,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/users" element={<Users />} />
       </Routes>
+      {/* </Suspense> */}
     </Router>
   );
 }
